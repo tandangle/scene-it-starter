@@ -1,22 +1,6 @@
-function saveToWatchlist(imdbID){ 
-    console.log(imdbID);
-    var movie = movieData.find(function(currentMovie){
-        return currentMovie.imdbID == imdbID;
-    });
-    var watchlistJSON = localStorage.getItem("watchlist");
-    var watchlist = JSON.parse(watchlistJSON);
-    if(!watchlist){
-        var watchlist = []
-    };
-    watchlist.push(movie);
-    // watchlistJSON = JSON.stringify(watchlist);
-    localStorage.setItem("watchlist", watchlist)
-    console.log(localStorage.getItem("watchlist"))
-}
-
 document.addEventListener("DOMContentLoaded", function() {
-    
-    
+    console.log(JSON.parse(localStorage.getItem("watchlist")));
+
     function renderMovies(movieArray) {
         var finalHTML = "";
         var moviesHTML = movieArray.map(function(currentMovie){
@@ -34,13 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
         finalHTML += moviesHTML.join("");
         return finalHTML;
     }
-    document.getElementById("movies-container").innerHTML = renderMovies(movieData);
-
-    document.getElementById("search-form").addEventListener("submit", function(e){
-        e.preventDefault();
-        document.getElementById("movies-container").innerHTML = renderMovies(movieData);
-   })
-
+    document.getElementById("movies-container").innerHTML = renderMovies(JSON.parse(localStorage.getItem("watchlist")));
 
    
 });
