@@ -26,6 +26,16 @@ function saveToWatchlist(imdbID){
 function renderMovies(movieArray) {
     var finalHTML = "";
     var moviesHTML = movieArray.map(function(currentMovie){
+        if(localStorage.getItem("watchlist").includes(currentMovie.imdbID)){
+            var movieHTML = `<div class="card movie" id="movie-card" style="width: 18rem;">
+            <img class="card-img-top" src="${currentMovie.Poster}" alt="movie poster">
+            <div class="card-body">
+              <h5 class="card-title">${currentMovie.Title}</h5>
+              <p class="card-text">${currentMovie.Year}</p>
+              <i>Already on your watchlist!</i>
+            </div>
+          </div>`
+        } else {
         var movieHTML = `<div class="card movie" id="movie-card" style="width: 18rem;">
                     <img class="card-img-top" src="${currentMovie.Poster}" alt="movie poster">
                     <div class="card-body">
@@ -34,7 +44,8 @@ function renderMovies(movieArray) {
                       <button class="btn btn-primary" id="${currentMovie.imdbID}" onclick="saveToWatchlist('${currentMovie.imdbID}')">Add</button>
                     </div>
                   </div>`
-            return movieHTML
+        }
+        return movieHTML
     });
 
     finalHTML += moviesHTML.join("");
