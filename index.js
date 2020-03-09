@@ -1,17 +1,25 @@
 function saveToWatchlist(imdbID){ 
-    console.log(responseData);
-    var movie = responseData.find(function(currentMovie){
-        return currentMovie.imdbID == imdbID;
-    });
-    var watchlistJSON = localStorage.getItem("watchlist");
-    var watchlist = JSON.parse(watchlistJSON);
-    if(!watchlist){
-        var watchlist = []
-    };
-    watchlist.push(movie);
-    watchlistJSON = JSON.stringify(watchlist);
-    localStorage.setItem("watchlist", watchlistJSON)
-    document.getElementById(imdbID).innerHTML = "Added!"
+    var searchString = document.getElementById("search-form-bar").value;
+    console.log(searchString)
+    var urlEncodedSearchString = encodeURIComponent(searchString);
+    axios.get("http://www.omdbapi.com/?apikey=62a1b7d1&s=" + urlEncodedSearchString)
+        .then(function(response) {
+            var responseData = response.data.Search;
+            var movie = responseData.find(function(currentMovie){
+                return currentMovie.imdbID == imdbID;
+            });
+            var watchlistJSON = localStorage.getItem("watchlist");
+            var watchlist = JSON.parse(watchlistJSON);
+            if(!watchlist){
+                var watchlist = []
+            };
+            watchlist.push(movie);
+            watchlistJSON = JSON.stringify(watchlist);
+            localStorage.setItem("watchlist", watchlistJSON)
+            console.log(localStorage.getItem("watchlist", watchlistJSON))
+            document.getElementById(imdbID).innerHTML = "Added!"
+        })
+   
 }
 
 
@@ -39,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
 document.getElementById("search-form").addEventListener("submit", function(e){
     e.preventDefault();
     var searchString = document.getElementById("search-form-bar").value;
+    console.log(searchString)
     var urlEncodedSearchString = encodeURIComponent(searchString);
     axios.get("http://www.omdbapi.com/?apikey=62a1b7d1&s=" + urlEncodedSearchString)
         .then(function(response) {
