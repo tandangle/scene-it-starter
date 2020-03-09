@@ -26,24 +26,37 @@ function saveToWatchlist(imdbID){
 function renderMovies(movieArray) {
     var finalHTML = "";
     var moviesHTML = movieArray.map(function(currentMovie){
-        if(localStorage.getItem("watchlist").includes(currentMovie.imdbID)){
+        // This conditional statmement checks to see if a given movie is already on the localStorage array watchlist. If it is, it renders a static text
+        // that the movie is on your watchlist
+        if (localStorage.getItem("watchlist") && localStorage.getItem("watchlist").includes(currentMovie.imdbID)){
             var movieHTML = `<div class="card movie" id="movie-card" style="width: 18rem;">
-            <img class="card-img-top" src="${currentMovie.Poster}" alt="movie poster">
+            <img class="card-img-top watchlist" src="${currentMovie.Poster}" alt="movie poster">
             <div class="card-body">
               <h5 class="card-title">${currentMovie.Title}</h5>
               <p class="card-text">${currentMovie.Year}</p>
               <i>Already on your watchlist!</i>
             </div>
           </div>`
+        // This conditional checks to see if the given movie has already been watched by comparing it to the array watchedList. If it has been watched, 
+        // render "You've watched this movie" instead of a button
+        } else if (localStorage.getItem("watchedlist") && localStorage.getItem("watchedlist").includes(currentMovie.imdbID)){
+            var movieHTML = `<div class="card movie" id="movie-card" style="width: 18rem;">
+            <img class="card-img-top watched" src="${currentMovie.Poster}" alt="movie poster">
+            <div class="card-body">
+              <h5 class="card-title">${currentMovie.Title}</h5>
+              <p class="card-text">${currentMovie.Year}</p>
+              <i>You've watched this movie!</i>
+            </div>
+          </div>`
         } else {
-        var movieHTML = `<div class="card movie" id="movie-card" style="width: 18rem;">
-                    <img class="card-img-top" src="${currentMovie.Poster}" alt="movie poster">
-                    <div class="card-body">
-                      <h5 class="card-title">${currentMovie.Title}</h5>
-                      <p class="card-text">${currentMovie.Year}</p>
-                      <button class="btn btn-primary" id="${currentMovie.imdbID}" onclick="saveToWatchlist('${currentMovie.imdbID}')">Add</button>
-                    </div>
-                  </div>`
+            var movieHTML = `<div class="card movie" id="movie-card" style="width: 18rem;">
+                <img class="card-img-top" src="${currentMovie.Poster}" alt="movie poster">
+                <div class="card-body">
+                    <h5 class="card-title">${currentMovie.Title}</h5>
+                    <p class="card-text">${currentMovie.Year}</p>
+                    <button class="btn btn-primary" id="${currentMovie.imdbID}" onclick="saveToWatchlist('${currentMovie.imdbID}')">Add</button>
+                </div>
+                </div>`
         }
         return movieHTML
     });

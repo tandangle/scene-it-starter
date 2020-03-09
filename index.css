@@ -22,3 +22,7 @@ body {
 #movie-card {
 	margin: 15px;
 }
+
+.watchlist, .watched {
+	opacity: 0.6;
+}
