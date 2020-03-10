@@ -1,4 +1,4 @@
-function removeWatchlist(imdbID){ 
+function addToWatchedList(imdbID){ 
     // This pushes the movie to the watchedList array
     console.log(localStorage.getItem("watchlist"));
     var movie = JSON.parse(localStorage.getItem("watchlist")).find(function(currentMovie){
@@ -27,6 +27,19 @@ function removeWatchlist(imdbID){
     document.getElementById("movies-container").innerHTML = renderMovies(JSON.parse(localStorage.getItem("watchlist")));
 }
 
+function removeFromWatchlist(imdbID){
+    var movieIndex = JSON.parse(localStorage.getItem("watchlist")).findIndex(function(currentMovie){
+        return currentMovie.imdbID == imdbID;
+    });
+    console.log(movieIndex)
+    watchlist = JSON.parse(localStorage.getItem("watchlist"))
+    watchlist.splice(movieIndex, 1);
+    watchlistJSON = JSON.stringify(watchlist);
+    localStorage.setItem("watchlist", watchlistJSON);
+
+    // Re-render the page after removing a movie from watchlist
+    document.getElementById("movies-container").innerHTML = renderMovies(JSON.parse(localStorage.getItem("watchlist")));
+}
 
 function renderMovies(movieArray) {
     var finalHTML = "";
@@ -36,7 +49,8 @@ function renderMovies(movieArray) {
                     <div class="card-body">
                       <h5 class="card-title">${currentMovie.Title}</h5>
                       <p class="card-text">${currentMovie.Year}</p>
-                      <button class="btn btn-primary" onclick="removeWatchlist('${currentMovie.imdbID}')">Remove</button>
+                      <button class="btn btn-primary" onclick="removeFromWatchlist('${currentMovie.imdbID}')">Remove</button>
+                      <button class="btn btn-primary" onclick="addToWatchedList('${currentMovie.imdbID}')">I've watched this movie!</button>
                     </div>
                   </div>`
             return movieHTML
@@ -68,3 +82,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("movies-watched").innerHTML = renderWatchedMovies(JSON.parse(localStorage.getItem("watchedlist")));
 });
 
+function renderWatchedMoviesHTML() {
+    document.getElementById("movies-watched").innerHTML = renderWatchedMovies(JSON.parse(localStorage.getItem("watchedlist")));
+}
