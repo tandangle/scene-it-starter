@@ -9,6 +9,8 @@ function addToWatchedList(imdbID){
     if(!watchedlist){
         var watchedlist = []
         };
+    var dateWatched = new Date().toDateString();
+    movie.Time = dateWatched;
     watchedlist.push(movie);
     watchedlistJSON = JSON.stringify(watchedlist);
     localStorage.setItem("watchedlist", watchedlistJSON);
@@ -26,6 +28,9 @@ function addToWatchedList(imdbID){
     // Re-render the page after removing a movie from watchlist
     document.getElementById("movies-container").innerHTML = renderMovies(JSON.parse(localStorage.getItem("watchlist")));
 }
+
+// This function removes the movie object from the watchlist Array and then pushes the new Array
+// to localStorage
 
 function removeFromWatchlist(imdbID){
     var movieIndex = JSON.parse(localStorage.getItem("watchlist")).findIndex(function(currentMovie){
@@ -68,6 +73,7 @@ function renderWatchedMovies(movieArray) {
                     <div class="card-body">
                       <h5 class="card-title">${currentMovie.Title}</h5>
                       <p class="card-text">${currentMovie.Year}</p>
+                      <p class="card-text">You watched this on ${currentMovie.Time}</p>
                     </div>
                   </div>`
             return movieHTML
