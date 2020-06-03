@@ -2,7 +2,7 @@ function saveToWatchlist(imdbID){
     var searchString = document.getElementById("search-form-bar").value;
     console.log(searchString)
     var urlEncodedSearchString = encodeURIComponent(searchString);
-    axios.get("http://www.omdbapi.com/?apikey=62a1b7d1&s=" + urlEncodedSearchString)
+    axios.get("https://www.omdbapi.com/?apikey=62a1b7d1&s=" + urlEncodedSearchString)
         .then(function(response) {
             var responseData = response.data.Search;
             var movie = responseData.find(function(currentMovie){
@@ -73,7 +73,7 @@ document.getElementById("search-form").addEventListener("submit", function(e){
     var searchString = document.getElementById("search-form-bar").value;
     console.log(searchString)
     var urlEncodedSearchString = encodeURIComponent(searchString);
-    axios.get("http://www.omdbapi.com/?apikey=62a1b7d1&s=" + urlEncodedSearchString)
+    axios.get("https://www.omdbapi.com/?apikey=62a1b7d1&s=" + urlEncodedSearchString)
         .then(function(response) {
             var responseData = response;
             document.getElementById("movies-container").innerHTML = renderMovies(response.data.Search);
